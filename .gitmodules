@@ -1,3 +1,4 @@
 [submodule "code"]
 	path = code
-	url = ./code
+        url = ../conv-container-code
+
