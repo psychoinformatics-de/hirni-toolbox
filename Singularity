@@ -1,5 +1,6 @@
 Bootstrap: shub
 From: shub://neurodebian/neurodebian:latest
+# TODO: Once neurodebian provides it, should specify a version tag instead of 'latest'.
 
 %files
 code/
