@@ -23,7 +23,8 @@ code/
 
 %help
 
-Singularity container to run raw data conversion in.
+Singularity container to run CBBS' raw data import/conversion tools in.
+TODO: Proper CBBS acknowledgement
 
 
 %post
@@ -64,8 +65,32 @@ Singularity container to run raw data conversion in.
 
     pip install cili
     pip install numpy
-    pip install git+https://github.com/psychoinformatics-de/datalad@master
-    pip install git+https://github.com/nipy/heudiconv@master
+
+
+    # -------------->
+    pip install git+https://github.com/mih/datalad@enh-nestedmetadata
+
+
+    pip install git+https://github.com/bpoldrack/heudiconv@cbbs-imaging
     # actually install scripts from /code (see %files):
     install /code/* /usr/local/bin
 
+# --------------->
+%runscript
+    case "$1" in
+        create)
+            exec create_study_ds "$2"
+            ;;
+        import)
+            exec add_scan_tarball "$2"
+            ;;
+         
+        dicom2bids)
+            exec convert_dicom_ds "$2" "$3"
+            ;;
+         
+        *)
+            echo $"Usage: $0 {import ABS_PATH_TO_TARBALL|dicoms2bids SUBDATASET TARGET_DIR}"
+            exit 1
+    esac
+    
