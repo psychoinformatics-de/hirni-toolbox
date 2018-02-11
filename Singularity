@@ -73,7 +73,7 @@ TODO: Proper CBBS acknowledgement
 
     pip install git+https://github.com/bpoldrack/heudiconv@cbbs-imaging
     # actually install scripts from /code (see %files):
-    install /code/* /usr/local/bin
+    install code/* /usr/local/bin
 
 # --------------->
 %runscript
