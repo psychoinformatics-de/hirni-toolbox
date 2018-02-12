@@ -17,9 +17,11 @@ MirrorURL: http://http.debian.net/debian/
     v=`git describe --tags --match sing-\* | sed -e 's,^sing-,,g'`; \
       python -c "import json, os; f='$SINGULARITY_ROOTFS/.singularity.d/labels.json'; j=json.load(open(f)) if os.path.exists(f) else {}; j['SINGULARITY_IMAGE_VERSION']='$v' or '0.0.unknown'; json.dump(j, open(f,'w'),indent=2)"
     chmod a+r "$SINGULARITY_ROOTFS/.singularity.d/labels.json"
+    mkdir ${SINGULARITY_ROOTFS}/cbbs-container-code
 
 %files
-code/
+code/*.sh /cbbs-container-code/
+code/*.py /cbbs-container-code/
 
 %help
 
@@ -68,29 +70,29 @@ TODO: Proper CBBS acknowledgement
 
 
     # -------------->
-    pip install git+https://github.com/mih/datalad@enh-nestedmetadata
+    pip install git+https://github.com/datalad/datalad@enh-metadata
 
 
     pip install git+https://github.com/bpoldrack/heudiconv@cbbs-imaging
     # actually install scripts from /code (see %files):
-    install code/* /usr/local/bin
+    install cbbs-container-code/* /usr/local/bin
 
 # --------------->
 %runscript
     case "$1" in
         create)
-            exec create_study_ds "$2"
+            exec create_study_ds.sh "$2"
             ;;
         import)
-            exec add_scan_tarball "$2"
+            exec add_scan_tarball.sh "$2"
             ;;
          
         dicom2bids)
-            exec convert_dicom_ds "$2" "$3"
+            exec convert_dicom_ds.sh "$2" "$3"
             ;;
          
         *)
-            echo $"Usage: $0 {import ABS_PATH_TO_TARBALL|dicoms2bids SUBDATASET TARGET_DIR}"
+            echo $"Usage: $0 {create [TARGET_DIR]|import ABS_PATH_TO_TARBALL|dicoms2bids SUBDATASET TARGET_DIR}"
             exit 1
     esac
     
