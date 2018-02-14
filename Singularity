@@ -17,7 +17,7 @@ MirrorURL: http://http.debian.net/debian/
     v=`git describe --tags --match sing-\* | sed -e 's,^sing-,,g'`; \
       python -c "import json, os; f='$SINGULARITY_ROOTFS/.singularity.d/labels.json'; j=json.load(open(f)) if os.path.exists(f) else {}; j['SINGULARITY_IMAGE_VERSION']='$v' or '0.0.unknown'; json.dump(j, open(f,'w'),indent=2)"
     chmod a+r "$SINGULARITY_ROOTFS/.singularity.d/labels.json"
-    mkdir ${SINGULARITY_ROOTFS}/cbbs-container-code
+    mkdir -p ${SINGULARITY_ROOTFS}/cbbs-container-code
 
 %files
 code/*.sh /cbbs-container-code/
@@ -70,7 +70,7 @@ TODO: Proper CBBS acknowledgement
 
 
     # -------------->
-    pip install git+https://github.com/datalad/datalad@enh-metadata
+    pip install git+https://github.com/psychoinformatics-de/datalad@master
 
 
     pip install git+https://github.com/bpoldrack/heudiconv@cbbs-imaging
