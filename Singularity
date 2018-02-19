@@ -70,7 +70,7 @@ TODO: Proper CBBS acknowledgement
 
 
     # -------------->
-    pip install git+https://github.com/psychoinformatics-de/datalad@master
+    pip install git+https://github.com/datalad/datalad@master
 
 
     pip install git+https://github.com/bpoldrack/heudiconv@cbbs-imaging
