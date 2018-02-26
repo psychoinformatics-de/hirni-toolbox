@@ -84,7 +84,7 @@ TODO: Proper CBBS acknowledgement
             exec create_study_ds.sh "$2"
             ;;
         import)
-            exec add_scan_tarball.sh "$2"
+            exec add_scan_tarball.sh "$2" "$3"
             ;;
          
         dicom2bids)
@@ -92,7 +92,7 @@ TODO: Proper CBBS acknowledgement
             ;;
          
         *)
-            echo $"Usage: $0 {create [TARGET_DIR]|import ABS_PATH_TO_TARBALL|dicoms2bids SUBDATASET TARGET_DIR}"
+            echo $"Usage: $0 {create [TARGET_DIR]|import ABS_PATH_TO_TARBALL [SESSION_ID] | dicoms2bids SUBDATASET TARGET_DIR}"
             exit 1
     esac
     
