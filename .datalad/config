@@ -1,2 +1,6 @@
 [datalad "dataset"]
 	id = 58b7fbd8-fbe0-11e7-bf1b-0cc47a6e9318
+[datalad "containers.heudiconv"]
+	updateurl = shub://psychoinformatics-de/cbbs-toolbox:heudiconv
+	image = converters/heudiconv/heudiconv.simg
+	cmdexec = singularity exec --bind {{pwd}} {img} {cmd}
