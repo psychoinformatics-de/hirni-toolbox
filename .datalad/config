@@ -4,3 +4,7 @@
 	updateurl = shub://psychoinformatics-de/cbbs-toolbox:heudiconv
 	image = converters/heudiconv/heudiconv.simg
 	cmdexec = singularity exec --bind {{pwd}} {img} {cmd}
+[datalad "containers.mridefacer"]
+	updateurl = shub://psychoinformatics-de/cbbs-toolbox:mridefacer
+	image = postprocessing/defacing/mridefacer.simg
+	cmdexec = singularity exec --bind {{pwd}} {img} {cmd}
