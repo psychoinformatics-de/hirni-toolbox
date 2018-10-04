@@ -18,8 +18,16 @@ From:neurodebian:non-free
     # and some dependencies that it doesnt declare...shame!
     eatmydata apt-get -y install --no-install-recommends file
 
+    # get needed tools
+    eatmydata apt-get -y install git make help2man
     # clean up
     apt-get clean
 
     # inject FSL setup
     ln -fs /etc/fsl/5.0/fsl.sh /.singularity.d/env/99-fsl.sh
+
+
+    # get mridefacer
+    git clone https://github.com/mih/mridefacer.git
+    make -C mridefacer install
+
