@@ -113,7 +113,9 @@ if __name__ == '__main__':
     rmtree(op.join(dataset.path, rel_trash_path))
     # remove empty *_events.tsv files created by heudiconv
     import glob
-    dataset.remove(glob.glob('*/*/*_events.tsv'),
-                   check=False,
-                   message="[HIRNI] Remove empty *_event.tsv "
-                           "files")
+    remove_paths = glob.glob('*/*/*_events.tsv')
+    if remove_paths:
+        dataset.remove(remove_paths,
+                       check=False,
+                       message="[HIRNI] Remove empty *_event.tsv "
+                               "files")
