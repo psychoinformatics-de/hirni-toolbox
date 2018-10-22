@@ -11,5 +11,5 @@
 [datalad "locations"]
     dataset-procedures = procedures
 [datalad "procedures.hirni-dicom-converter"]
-    call-format = "python {script} {ds} {{specpath}} {{anonymize}} {{bids-subject}} {{location}}"
+    call-format = "{script} {ds} {{specpath}} {{anonymize}} {{bids-subject}} {{location}}"
     help = "heudiconv based DICOM converter"
