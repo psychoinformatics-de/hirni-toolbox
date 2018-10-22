@@ -17,7 +17,6 @@ if __name__ == '__main__':
 
     import hirni_heuristic as heuristic
 
-    import pdb;pdb.set_trace()
     dataset = Dataset(sys.argv[1])
     rel_spec_path = sys.argv[2]
     anonymize = anything2bool(sys.argv[3])
@@ -28,11 +27,14 @@ if __name__ == '__main__':
 
     from tempfile import mkdtemp
 
+    # relative path to heuristic to be recorded by datalad-run
+    heuristic_path = op.relpath(heuristic.__file__, dataset.path)
+
     # relative path to not-needed-heudiconv output:
     rel_trash_path = op.relpath(mkdtemp(prefix="hirni-tmp-",
-                                     dir=op.join(dataset.path,
-                                             ".git")),
-                             dataset.path)
+                                        dir=op.join(dataset.path,
+                                                    ".git")),
+                                dataset.path)
     run_results = list()
     with patch.dict('os.environ',
                     {'HIRNI_STUDY_SPEC': rel_spec_path,
@@ -43,7 +45,7 @@ if __name__ == '__main__':
                  # XXX absolute path will make rerun on other
                  # system impossible -- hard to avoid
                  # TODO: from toolbox? config?
-                 '-f', heuristic.__file__,
+                 '-f', heuristic_path,
                  # leaves identifying info in run record
                  '-s', subject,
                  '-c', 'dcm2niix',
