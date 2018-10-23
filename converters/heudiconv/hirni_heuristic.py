@@ -160,14 +160,14 @@ def validate_spec(spec):
         raise ValueError("Image series specification is empty.")
 
     # check converter
-    converter = get_specval(spec, 'converter')
-    if converter == 'ignore':
-        lgr.debug("Skip series %s (marked 'ignore' in spec)", spec['uid'])
-        return False
-    if converter != 'heudiconv':
-        lgr.debug("Skip series %s since it's not supposed to be converted by "
-                  "heudiconv.", spec['uid'])
-        return False
+    # converter = get_specval(spec, 'converter')
+    # if converter == 'ignore':
+    #     lgr.debug("Skip series %s (marked 'ignore' in spec)", spec['uid'])
+    #     return False
+    # if converter != 'heudiconv':
+    #     lgr.debug("Skip series %s since it's not supposed to be converted by "
+    #               "heudiconv.", spec['uid'])
+    #     return False
 
     # mandatory keys for any spec dict (not only dicomseries)
     for k in spec.keys():

@@ -40,7 +40,7 @@ if __name__ == '__main__':
                     {'HIRNI_STUDY_SPEC': rel_spec_path,
                      'HIRNI_SPEC2BIDS_SUBJECT': subject}):
 
-        for r in dataset.containers_run(
+        dataset.containers_run(
                 ['heudiconv',
                  # XXX absolute path will make rerun on other
                  # system impossible -- hard to avoid
@@ -65,27 +65,14 @@ if __name__ == '__main__':
                 sidecar=anonymize,
 
                 # TODO: This doesn't work!
-                container_name="tools/heudiconv",
+                container_name=op.relpath(op.join(op.dirname(op.realpath(__file__)), "heudiconv.simg"), dataset.path),
                 inputs=[location,
                         rel_spec_path],
                 outputs=[dataset.path],
                 message="[HIRNI] Convert DICOM data for subject {}"
                         "".format(subject),
 
-
-
-
-
-                # TODO: No generator; we can't yield results from a procedure
-
-
-
-
-
-                return_type='generator',
-        ):
-
-            print(r)
+                )
 
 
     #         # if there was an issue with containers-run,
