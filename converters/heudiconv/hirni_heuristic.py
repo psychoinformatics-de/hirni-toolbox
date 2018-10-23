@@ -59,17 +59,17 @@ datatype_labels_map = {
 # map specification keys to BIDS abbreviation used in paths
 spec2bids_map = {
     'subject': "sub",
-    'anon_subject': "sub",
-    'bids_session': "ses",
-    'bids_task': "task",
-    'bids_run': "run",
-    'bids_modality': "mod",
-    'bids_acquisition': "acq",
-    'bids_scan': "scan",
-    'bids_contrast_enhancement': "ce",
-    'bids_reconstruction_algorithm': "rec",
-    'bids_echo': "echo",
-    'bids_direction': "dir",
+    'anon-subject': "sub",
+    'bids-session': "ses",
+    'bids-task': "task",
+    'bids-run': "run",
+    'bids-modality': "mod",
+    'bids-acquisition': "acq",
+    'bids-scan': "scan",
+    'bids-contrast_enhancement': "ce",
+    'bids-reconstruction_algorithm': "rec",
+    'bids-echo': "echo",
+    'bids-direction': "dir",
 }
 
 
@@ -174,8 +174,8 @@ def validate_spec(spec):
         # automatically managed keys with no subdict:
         # TODO: Where to define this list?
         # TODO: Test whether those are actually present!
-        if k in ['type', 'status', 'location', 'uid', 'dataset_id',
-                 'dataset_refcommit']:
+        if k in ['type', 'status', 'location', 'uid', 'dataset-id',
+                 'dataset-refcommit']:
             continue
         if 'value' not in spec[k]:
             lgr.warning("DICOM series specification (UID: {uid}) has no value "
@@ -190,7 +190,7 @@ def validate_spec(spec):
         lgr.warning("Missing image series UID.")
         return False
 
-    for var in ('bids_modality',):
+    for var in ('bids-modality',):
         if not has_specval(spec, var):
             lgr.warning("Missing specification value for key '%s'", var)
             return False
@@ -235,13 +235,13 @@ def infotodict(seqinfo):  # pragma: no cover
 
         dirname = filename = "sub-{}".format(_spec.subject)
         # session
-        if has_specval(series_spec, 'bids_session'):
-            ses = get_specval(series_spec, 'bids_session')
+        if has_specval(series_spec, 'bids-session'):
+            ses = get_specval(series_spec, 'bids-session')
             dirname += "/ses-{}".format(ses)
             filename += "_ses-{}".format(ses)
 
         # data type
-        modality = get_specval(series_spec, 'bids_modality')
+        modality = get_specval(series_spec, 'bids-modality')
         # make cannonical if possible
         modality = modality_label_map.get(modality, modality)
         # apply fixed mapping from modality -> data_type
@@ -257,9 +257,9 @@ def infotodict(seqinfo):  # pragma: no cover
             # func/sub-<participant_label>[_ses-<session_label>]
             # _task-<task_label>[_acq-<label>][_rec-<label>][_run-<index>][_echo-<index>]_<modality_label>.nii[.gz]
 
-            for spec_key in ['bids_task', 'bids_acquisition',
-                             'bids_reconstruction_algorithm', 'bids_run',
-                             'bids_echo']:
+            for spec_key in ['bids-task', 'bids-acquisition',
+                             'bids-reconstruction_algorithm', 'bids-run',
+                             'bids-echo']:
                 if has_specval(series_spec, spec_key):
                     filename += "_{}-{}".format(
                             spec2bids_map[spec_key],
@@ -271,10 +271,10 @@ def infotodict(seqinfo):  # pragma: no cover
             # anat/sub-<participant_label>[_ses-<session_label>]
             # [_acq-<label>][_ce-<label>][_rec-<label>][_run-<index>][_mod-<label>]_<modality_label>.nii[.gz]
 
-            for spec_key in ['bids_acquisition',
-                             'bids_contrast_enhancement',
-                             'bids_reconstruction_algorithm',
-                             'bids_run']:
+            for spec_key in ['bids-acquisition',
+                             'bids-contrast_enhancement',
+                             'bids-reconstruction_algorithm',
+                             'bids-run']:
                 if has_specval(series_spec, spec_key):
                     filename += "_{}-{}".format(
                             spec2bids_map[spec_key],
@@ -289,8 +289,8 @@ def infotodict(seqinfo):  # pragma: no cover
             # dwi/sub-<participant_label>[_ses-<session_label>]
             # [_acq-<label>][_run-<index>]_dwi.nii[.gz]
 
-            for spec_key in ['bids_acquisition',
-                             'bids_run']:
+            for spec_key in ['bids-acquisition',
+                             'bids-run']:
                 if has_specval(series_spec, spec_key):
                     filename += "_{}-{}".format(
                             spec2bids_map[spec_key],
@@ -314,9 +314,9 @@ def infotodict(seqinfo):  # pragma: no cover
             # _fieldmap
             # _epi
 
-            for spec_key in ['bids_acquisition',
-                             'bids_direction',
-                             'bids_run']:
+            for spec_key in ['bids-acquisition',
+                             'bids-direction',
+                             'bids-run']:
                 if has_specval(series_spec, spec_key):
                     filename += "_{}-{}".format(
                             spec2bids_map[spec_key],
