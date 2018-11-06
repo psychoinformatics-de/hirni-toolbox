@@ -174,8 +174,8 @@ def validate_spec(spec):
         # automatically managed keys with no subdict:
         # TODO: Where to define this list?
         # TODO: Test whether those are actually present!
-        if k in ['type', 'status', 'location', 'uid', 'dataset-id',
-                 'dataset-refcommit']:
+        if k in ['type', 'location', 'uid', 'dataset-id',
+                 'dataset-refcommit', 'converter']:
             continue
         if 'value' not in spec[k]:
             lgr.warning("DICOM series specification (UID: {uid}) has no value "
