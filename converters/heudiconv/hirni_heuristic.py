@@ -66,8 +66,8 @@ spec2bids_map = {
     'bids-modality': "mod",
     'bids-acquisition': "acq",
     'bids-scan': "scan",
-    'bids-contrast_enhancement': "ce",
-    'bids-reconstruction_algorithm': "rec",
+    'bids-contrast-enhancement': "ce",
+    'bids-reconstruction-algorithm': "rec",
     'bids-echo': "echo",
     'bids-direction': "dir",
 }
