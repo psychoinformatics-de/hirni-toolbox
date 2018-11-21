@@ -159,15 +159,10 @@ def validate_spec(spec):
     if not spec:
         raise ValueError("Image series specification is empty.")
 
-    # check converter
-    # converter = get_specval(spec, 'converter')
-    # if converter == 'ignore':
-    #     lgr.debug("Skip series %s (marked 'ignore' in spec)", spec['uid'])
-    #     return False
-    # if converter != 'heudiconv':
-    #     lgr.debug("Skip series %s since it's not supposed to be converted by "
-    #               "heudiconv.", spec['uid'])
-    #     return False
+    tags = spec.get('tags', None)
+    if tags and 'hirni-dicom-converter-ignore' in tags:
+        lgr.debug("Skip series %s (marked 'ignore' in spec)", spec['uid'])
+        return False
 
     # mandatory keys for any spec dict (not only dicomseries)
     for k in spec.keys():
@@ -175,7 +170,7 @@ def validate_spec(spec):
         # TODO: Where to define this list?
         # TODO: Test whether those are actually present!
         if k in ['type', 'location', 'uid', 'dataset-id',
-                 'dataset-refcommit', 'converter']:
+                 'dataset-refcommit', 'procedures', 'tags']:
             continue
         if 'value' not in spec[k]:
             lgr.warning("DICOM series specification (UID: {uid}) has no value "
