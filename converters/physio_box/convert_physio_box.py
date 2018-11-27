@@ -70,22 +70,25 @@ def proc_physio_run(data):
 
 if __name__ == '__main__':
     import sys
-    import os.path as op
+    from datalad.api import Dataset
+    from datalad_revolution.revsave import RevSave
+
+    dataset = Dataset(sys.argv[1])
 
     # TODO: This isn't nice. Proper argparse needed.
-    in_file = sys.argv[1]
+    in_file = sys.argv[2]
     # out_dir = sys.argv[2]
     # Note: converter will be run from within BIDS ds root!
-    subject = sys.argv[2]
-    task = sys.argv[3]
-    run = sys.argv[4]
-    frequency = sys.argv[5]
-    if len(sys.argv) > 6:
-        session = sys.argv[6]
+    subject = sys.argv[3]
+    task = sys.argv[4]
+    run = sys.argv[5]
+    frequency = sys.argv[6]
+    if len(sys.argv) > 7:
+        session = sys.argv[7]
     else:
         session = None
-    if len(sys.argv) > 7:
-        recording = sys.argv[7]
+    if len(sys.argv) > 8:
+        recording = sys.argv[8]
     else:
         recording = "cardresp"
 
@@ -129,11 +132,11 @@ if __name__ == '__main__':
     json_py.dump(descriptor, out_file_json)
     np.savetxt(out_file_tsv, d.T, delimiter='\t')
 
+    RevSave.__call__(dataset=dataset,
+                     path=[out_file_json, out_file_tsv],
+                     message="[HIRNI] Converted physio box file")
 
-
-
-
-    # Note: Logging disabled for now
+# Note: Logging disabled for now
     #if len(sys.argv) >3:
     #    log = open(os.path.join(od,sys.argv[3]), 'w')
     #else:

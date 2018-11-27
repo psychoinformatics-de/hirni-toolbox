@@ -14,6 +14,6 @@
     call-format = "python {script} {ds} {{specpath}} {{anonymize}} {{bids-subject}} {{location}}"
     help = "heudiconv based DICOM converter"
 [datalad "procedures.hirni-physiobox-converter"]
-    call-format = "{script} {{location}} {{bids-subject}} {{bids-task}} {{bids-run}} {{frequency}}"
+    call-format = "{script} {{ds}} {{location}} {{bids-subject}} {{bids-task}} {{bids-run}} {{frequency}}"
     help = "converter for Joerg's physiobox files"
 
