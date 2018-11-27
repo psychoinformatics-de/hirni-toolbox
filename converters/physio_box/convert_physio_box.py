@@ -70,10 +70,10 @@ def proc_physio_run(data):
 
 if __name__ == '__main__':
     import sys
-    from datalad.api import Dataset
+    #from datalad.api import Dataset
     from datalad_revolution.revsave import RevSave
 
-    dataset = Dataset(sys.argv[1])
+    dataset_path = sys.argv[1]
 
     # TODO: This isn't nice. Proper argparse needed.
     in_file = sys.argv[2]
@@ -132,7 +132,7 @@ if __name__ == '__main__':
     json_py.dump(descriptor, out_file_json)
     np.savetxt(out_file_tsv, d.T, delimiter='\t')
 
-    RevSave.__call__(dataset=dataset,
+    RevSave.__call__(dataset=dataset_path,
                      path=[out_file_json, out_file_tsv],
                      message="[HIRNI] Converted physio box file")
 
