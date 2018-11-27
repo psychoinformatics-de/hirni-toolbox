@@ -1,1 +1,1 @@
-../converters/physio_box/convert_physio_box.py
+../converters/physio_box/procedure.py
