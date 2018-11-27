@@ -11,7 +11,7 @@ if __name__ == '__main__':
     from datalad.config import anything2bool
 
     dataset = Dataset(sys.argv[1])
-    converter_path = op.join(op.dirname(__file__), 'convert_physio_box.py')
+    converter_path = op.join(op.dirname(op.realpath(__file__)), 'convert_physio_box.py')
     anonymize = anything2bool(sys.argv[2])
     arguments = " ".join(sys.argv[3:])
     input_file = sys.argv[3]
