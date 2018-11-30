@@ -44,6 +44,7 @@ datatype_labels_map = {
     'inplaneT2': 'anat',
     'angio': 'anat',
 
+    'swi': 'swi',
     'dwi': 'dwi',
 
     'phasediff': 'fmap',
@@ -70,6 +71,11 @@ spec2bids_map = {
     'bids-reconstruction-algorithm': "rec",
     'bids-echo': "echo",
     'bids-direction': "dir",
+
+    # SWI Extension:
+    'bids-part': "part",
+    'bids-coil': "coil",
+
 }
 
 
@@ -294,6 +300,26 @@ def infotodict(seqinfo):  # pragma: no cover
             # TODO: Double check: Is this always correct?
             filename += "_dwi"
 
+        if data_type == 'swi':
+            # BIDS-Extension:
+            # https://docs.google.com/document/d/1kyw9mGgacNqeMbp4xZet3RnDhcMmf4_BmRgKaOkO2Sc
+            # swi/sub-<participant_label>[_ses-<session_label>]
+            #       [_acq-<label>][_rec-<label>]_part-<phase|mag>[_coil-<index>][_echo-<index>][_run-<index>]_GRE.nii[.gz]
+
+            for spec_key in ['bids-acquisition',
+                             'bids-reconstruction_algorithm',
+                             'bids-part',
+                             'bids-coil',
+                             'bids-echo',
+                             'bids-run',
+                             ]:
+                if has_specval(series_spec, spec_key):
+                    filename += "_{}-{}".format(
+                            spec2bids_map[spec_key],
+                            get_specval(series_spec, spec_key))
+
+            filename += "_GRE"
+            
         if data_type == 'fmap':
             # Case 1: Phase difference image and at least one magnitude image
             # sub-<participant_label>/[ses-<session_label>/]
