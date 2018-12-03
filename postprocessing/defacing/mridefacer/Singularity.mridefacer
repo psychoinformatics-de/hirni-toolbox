@@ -19,7 +19,7 @@ From:neurodebian:non-free
     eatmydata apt-get -y install --no-install-recommends file
 
     # get needed tools
-    eatmydata apt-get -y install git make help2man
+    eatmydata apt-get -y install git make help2man num-utils
     # clean up
     apt-get clean
 
