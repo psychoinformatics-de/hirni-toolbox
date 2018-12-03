@@ -6,7 +6,7 @@
 	cmdexec = singularity exec --bind {{pwd}} {img} {cmd}
 [datalad "containers.mridefacer"]
 	updateurl = shub://psychoinformatics-de/cbbs-toolbox:mridefacer
-	image = postprocessing/defacing/mridefacer.simg
+	image = postprocessing/defacing/mridefacer/mridefacer.simg
 	cmdexec = singularity exec --bind {{pwd}} {img} {cmd}
 [datalad "locations"]
     dataset-procedures = procedures
