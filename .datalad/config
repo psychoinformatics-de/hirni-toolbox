@@ -16,4 +16,8 @@
 [datalad "procedures.hirni-physiobox-converter"]
     call-format = "python {script} {ds} {{anonymize}} {{location}} {{bids-subject}} {{bids-task}} {{bids-run}} {{frequency}}"
     help = "converter for Joerg's physiobox files"
+[datalad "procedures.hirni-mridefacer"]
+    call-format = "python {script} {ds} {{anonymize}} sub-{{bids-subject}}/anat/*_T1*.nii.gz"
+    help = "de-facer for MRI data"
+ 
 
