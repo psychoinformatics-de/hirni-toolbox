@@ -25,3 +25,7 @@
 	updateurl = shub://psychoinformatics-de/cbbs-toolbox:fsl
 	image = postprocessing/fsl/fsl.simg
 	cmdexec = singularity exec --bind {{pwd}} {img} {cmd}
+[datalad "procedures.fslroi"]
+	call-format = "python {script} {ds} {args}"
+	help = "fslroi"
+
