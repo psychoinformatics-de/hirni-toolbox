@@ -17,7 +17,7 @@ if __name__ == '__main__':
         print("Missing '-- [FILES]'")
         sys.exit(1)
 
-    files = sys.argv[delimiter+1:]
+    files = sys.argv[delimiter+3:]
 
     # TODO: How to get those into a single commit? Script in container or
     # call a loop directly?
@@ -28,6 +28,6 @@ if __name__ == '__main__':
                 container_name=op.relpath(
                     op.join(op.dirname(op.realpath(__file__)), "fsl.simg"),
                     dataset.path),
-                inputs=f,
-                outputs=f,
+                inputs=[f],
+                outputs=[f],
         )
