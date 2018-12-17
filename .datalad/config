@@ -28,4 +28,7 @@
 [datalad "procedures.fslroi"]
 	call-format = "python {script} {ds} {args}"
 	help = "fslroi"
+[datalad "procedures.copy-converter"]
+        call-format = "bash {script} {args}"
+        help = "helper procedure to simply copy files on conversion"
 
