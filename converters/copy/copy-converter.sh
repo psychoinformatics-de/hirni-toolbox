@@ -6,7 +6,7 @@ set -x
 
 if [ -d "$1" ]
 then
-    datalad run --input "$1" --output "$2" cp -r "$1" "$2"
+    datalad run --explicit --input "$1" --output "$2" cp -r "$1" "$2"
 else
-    datalad run --input "$1" --output "$2" cp "$1" "$2"
+    datalad run --explicit --input "$1" --output "$2" cp "$1" "$2"
 fi
