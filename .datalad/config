@@ -31,4 +31,7 @@
 [datalad "procedures.copy-converter"]
         call-format = "bash {script} {args}"
         help = "helper procedure to simply copy files on conversion"
+[datalad "procedures.move-converter"]
+	call-format = "bash {script} {args}"
+	help = "helper procedure to simply move files on conversion"
 
