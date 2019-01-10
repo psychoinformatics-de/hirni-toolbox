@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # simply copy a file and add it to destination dataset
+# TODO: a bit of protection for too many/less arguments ...
+
 
 set -e -u
 set -x

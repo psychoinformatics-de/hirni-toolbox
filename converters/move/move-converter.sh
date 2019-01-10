@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # simply git-move a file
+# TODO: a bit of protection for too many/less arguments ...
 
 set -e -u
 set -x
