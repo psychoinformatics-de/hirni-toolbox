@@ -16,7 +16,6 @@ if __name__ == '__main__':
     arguments = " ".join(sys.argv[3:])
     input_file = sys.argv[3]
     call = "{conv} {args}".format(conv=converter_path, args=arguments)
-    print("DEBUG:\ncall: %s\ninputs: %s" % (call, input_file))
     dataset.run(call,
                 sidecar=anonymize,
                 inputs=[input_file],
