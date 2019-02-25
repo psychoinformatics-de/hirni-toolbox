@@ -5,4 +5,4 @@
 set -e -u
 set -x
 
-datalad run --input "$1" git mv "$1" "$2"
+datalad run --explicit --input "$1" --output "$2" git mv "$1" "$2"
