@@ -18,7 +18,7 @@ def find_triggers(tc):
             # special case: start of series with trigger on
             triggers.append(i)
             on_state = True
-        elif r == 0:
+        if r == 0:
             continue
         elif r < 0:
             if on_state is None:
@@ -26,7 +26,7 @@ def find_triggers(tc):
             on_state = False
         elif r > 0:
             if not on_state:
-                triggers.append(min(i + 1, len(tc) - 1))
+                triggers.append(i)
             on_state = True
     return triggers
 
@@ -59,8 +59,8 @@ def proc_physio_run(data):
         ))
 
     # Note: Logging disabled for now. Not yet clear where to put it.
-    #if trigger_pos[0] > 0:
-    #    print >>log, "Stripping %i data samples before first trigger" % trigger_pos[0]
+    # if trigger_pos[0] > 0:
+    #     print >>log, "Stripping %i data samples before first trigger" % trigger_pos[0]
 
     # cut timeseries from start to one trigger distance after the last
     data = data[:, trigger_pos[0]:max_duration]
