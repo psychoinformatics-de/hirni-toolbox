@@ -70,49 +70,13 @@ def proc_physio_run(data):
 
 if __name__ == '__main__':
     import sys
-    import os.path as op
 
     # TODO: This isn't nice. Proper argparse needed.
     in_file = sys.argv[1]
-    # out_dir = sys.argv[2]
-    # Note: converter will be run from within BIDS ds root!
-    subject = sys.argv[2]
-    task = sys.argv[3]
-    run = sys.argv[4]
-    frequency = sys.argv[5]
-    if len(sys.argv) > 6:
-        session = sys.argv[6]
-    else:
-        session = None
-    if len(sys.argv) > 7:
-        recording = sys.argv[7]
-    else:
-        recording = "cardresp"
+    out_file_tsv = sys.argv[2]
+    out_file_json = sys.argv[3]
+    frequency = sys.argv[4]
 
-    # TODO: Move the following into some test
-    # number of triggers that should be in each run
-    # trigger_n = (451, 441, 438, 488, 462, 439, 542, 338)
-
-    # sub-XX/[ses-xx]/func/<matches>[_recording-<label>]_physio.tsv.gz
-    # + ******.json
-    out_file = "sub-{subject}".format(subject=subject)
-    if session:
-        out_file += "/ses-{session}".format(session=session)
-    out_file += "/func/"
-
-    matches = "sub-{subject}".format(subject=subject)
-    if session:
-        matches += "_ses-{session}".format(session=session)
-    # TODO: This could be a lot more complicated according to BIDS:
-    matches += "_task-{task}_run-{run}".format(task=task, run=run)
-
-    out_file += "{matches}_recording-{recording}_physio".format(
-            matches=matches, recording=recording)
-
-    out_file_json = out_file + ".json"
-    out_file_tsv = out_file + ".tsv.gz"
-
-    print('%s -> %s' % (in_file, out_file))
     data = np.loadtxt(in_file)
     d = proc_physio_run(data)
 
@@ -128,13 +92,3 @@ if __name__ == '__main__':
     from datalad.support import json_py
     json_py.dump(descriptor, out_file_json)
     np.savetxt(out_file_tsv, d.T, delimiter='\t')
-
-
-
-
-
-    # Note: Logging disabled for now
-    #if len(sys.argv) >3:
-    #    log = open(os.path.join(od,sys.argv[3]), 'w')
-    #else:
-    #    log = sys.stderr
