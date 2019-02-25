@@ -8,7 +8,6 @@ if __name__ == '__main__':
     # subject
     # replacements?
 
-
     import sys
     import os.path as op
     from datalad.api import Dataset
@@ -35,6 +34,13 @@ if __name__ == '__main__':
                                         dir=op.join(dataset.path,
                                                     ".git")),
                                 dataset.path)
+
+    # at least narrow down the output target:
+    # TODO: Ultimately more of the output path logic needs to move here in order
+    # to not have datalad-run unlock everything and do expensive modification
+    # checks on unrelated subtrees.
+    output_dir = op.join(dataset.path, "sub-{}".format(subject))
+
     run_results = list()
     with patch.dict('os.environ',
                     {'HIRNI_STUDY_SPEC': rel_spec_path,
@@ -66,9 +72,10 @@ if __name__ == '__main__':
 
                 # TODO: This doesn't work!
                 container_name=op.relpath(op.join(op.dirname(op.realpath(__file__)), "heudiconv.simg"), dataset.path),
+                explicit=True,
                 inputs=[location,
                         rel_spec_path],
-                outputs=[dataset.path],
+                outputs=[output_dir],
                 message="[HIRNI] Convert DICOM data for subject {}"
                         "".format(subject),
 
