@@ -9,6 +9,7 @@ if __name__ == '__main__':
     # replacements?
 
     import sys
+    import os
     import os.path as op
     from datalad.api import Dataset
     from datalad.utils import rmtree
@@ -39,7 +40,7 @@ if __name__ == '__main__':
     # TODO: Ultimately more of the output path logic needs to move here in order
     # to not have datalad-run unlock everything and do expensive modification
     # checks on unrelated subtrees.
-    output_dir = op.join(dataset.path, "sub-{}".format(subject))
+    subject_dir = op.join(dataset.path, "sub-{}".format(subject))
 
     run_results = list()
     with patch.dict('os.environ',
@@ -69,13 +70,19 @@ if __name__ == '__main__':
                  '--files', location
                  ],
                 sidecar=anonymize,
-
                 # TODO: This doesn't work! ... Well, it does. What was the problem?
                 container_name=op.relpath(op.join(op.dirname(op.realpath(__file__)), "heudiconv.simg"), dataset.path),
                 explicit=True,
+                expand="both",
                 inputs=[location,
                         rel_spec_path],
-                outputs=[output_dir],
+
+                # Note: Outputs determination isn't good yet. We need a way to
+                # figure what exactly heudiconv produced. This is different from
+                # other toolbox-procedures due to our "injection heuristic".
+                outputs=[subject_dir,
+                         op.join(dataset.path, "participants.tsv"),
+                         op.join(dataset.path, "task-*.json")],
                 message="[HIRNI] Convert DICOM data for subject {}"
                         "".format(subject),
 
@@ -105,8 +112,10 @@ if __name__ == '__main__':
     #            'status': 'ok',
     #            'message': "acquisition converted."}
 
-        # remove superfluous heudiconv output
+    # remove superfluous heudiconv output
     rmtree(op.join(dataset.path, rel_trash_path))
+    # TODO: This needs protection against deleting sth that was there before
+    os.unlink(op.join(dataset.path, "CHANGES"))
 
     # remove empty *_events.tsv files created by heudiconv
     # TODO: ATM this relies on identifying heudiconv's template by its annex key.
