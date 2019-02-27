@@ -70,7 +70,7 @@ if __name__ == '__main__':
                  ],
                 sidecar=anonymize,
 
-                # TODO: This doesn't work!
+                # TODO: This doesn't work! ... Well, it does. What was the problem?
                 container_name=op.relpath(op.join(op.dirname(op.realpath(__file__)), "heudiconv.simg"), dataset.path),
                 explicit=True,
                 inputs=[location,
@@ -107,9 +107,15 @@ if __name__ == '__main__':
 
         # remove superfluous heudiconv output
     rmtree(op.join(dataset.path, rel_trash_path))
+
     # remove empty *_events.tsv files created by heudiconv
+    # TODO: ATM this relies on identifying heudiconv's template by its annex key.
+    # this is a hack. Might not work with different heudiconv versions and
+    # furthermore a change of the used backend will invalidate it.
     import glob
-    remove_paths = glob.glob('*/*/*_events.tsv')
+    remove_paths = [p for p in glob.glob('*/*/*_events.tsv')
+                    if dataset.repo.get_file_key(p) ==
+                    "MD5E-s116--539045d97ea63aa9bdaf017861ff7ff0.tsv"]
     if remove_paths:
         dataset.remove(remove_paths,
                        check=False,
