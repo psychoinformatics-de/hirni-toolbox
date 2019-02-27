@@ -41,6 +41,16 @@ if __name__ == '__main__':
     # to not have datalad-run unlock everything and do expensive modification
     # checks on unrelated subtrees.
     subject_dir = op.join(dataset.path, "sub-{}".format(subject))
+    participants = op.join(dataset.path, "participants.tsv")
+    from datalad.interface.run import format_command
+    # TODO: This pattern is likely incomplete. Also: run prob. needs to break
+    # down format_command into smaller pieces (needs mere substitutions)
+    # TODO: Post run issue. Globs in outputs need to be evaluted AFTER execution
+    # (again). May not yet exist.
+    task_sidecar = op.join(dataset.path,
+                           format_command(
+                                   dataset,
+                                   "task-{bids-task}_{bids-modality}.json"))
 
     run_results = list()
     with patch.dict('os.environ',
@@ -80,9 +90,7 @@ if __name__ == '__main__':
                 # Note: Outputs determination isn't good yet. We need a way to
                 # figure what exactly heudiconv produced. This is different from
                 # other toolbox-procedures due to our "injection heuristic".
-                outputs=[subject_dir,
-                         op.join(dataset.path, "participants.tsv"),
-                         op.join(dataset.path, "task-*.json")],
+                outputs=[subject_dir, participants, task_sidecar],
                 message="[HIRNI] Convert DICOM data for subject {}"
                         "".format(subject),
 
