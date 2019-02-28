@@ -47,10 +47,15 @@ if __name__ == '__main__':
     # down format_command into smaller pieces (needs mere substitutions)
     # TODO: Post run issue. Globs in outputs need to be evaluted AFTER execution
     # (again). May not yet exist.
-    task_sidecar = op.join(dataset.path,
-                           format_command(
+
+    outputs = [subject_dir, participants]
+    task = dataset.config.get("datalad.run.substitutions.bids-task")
+    if task and task != "None":
+        outputs.append(op.join(dataset.path,
+                               format_command(
                                    dataset,
                                    "task-{bids-task}_{bids-modality}.json"))
+                       )
 
     run_results = list()
     with patch.dict('os.environ',
@@ -90,7 +95,7 @@ if __name__ == '__main__':
                 # Note: Outputs determination isn't good yet. We need a way to
                 # figure what exactly heudiconv produced. This is different from
                 # other toolbox-procedures due to our "injection heuristic".
-                outputs=[subject_dir, participants, task_sidecar],
+                outputs=outputs,
                 message="[HIRNI] Convert DICOM data for subject {}"
                         "".format(subject),
 
