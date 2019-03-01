@@ -36,6 +36,13 @@ if __name__ == '__main__':
                                                     ".git")),
                                 dataset.path)
 
+    # heudiconv may create README, CHANGES, dataset_description.json if they
+    # weren't there. So, if those aren't there before, we want to kill them
+    # afterwards
+    keep_readme = op.lexists(op.join(dataset.path, "README"))
+    keep_changes = op.lexists(op.join(dataset.path, "CHANGES"))
+    keep_description = op.lexists(op.join(dataset.path, "dataset_description.json"))
+
     # at least narrow down the output target:
     # TODO: Ultimately more of the output path logic needs to move here in order
     # to not have datalad-run unlock everything and do expensive modification
@@ -127,8 +134,13 @@ if __name__ == '__main__':
 
     # remove superfluous heudiconv output
     rmtree(op.join(dataset.path, rel_trash_path))
-    # TODO: This needs protection against deleting sth that was there before
-    os.unlink(op.join(dataset.path, "CHANGES"))
+
+    if not keep_changes:
+        os.unlink(op.join(dataset.path, "CHANGES"))
+    if not keep_readme:
+        os.unlink(op.join(dataset.path, "README"))
+    if not keep_description:
+        os.unlink(op.join(dataset.path, "dataset_description.json"))
 
     # remove empty *_events.tsv files created by heudiconv
     # TODO: ATM this relies on identifying heudiconv's template by its annex key.
