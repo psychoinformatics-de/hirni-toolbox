@@ -63,6 +63,15 @@ if __name__ == '__main__':
                                    dataset,
                                    "task-{bids-task}_{bids-modality}.json"))
                        )
+    # we expect location to be a directory (with DICOMS somewhere beneath)
+    if not op.isdir(location):
+        raise ValueError("%s is not a directory" % location)
+
+    from datalad.utils import with_pathsep
+    # append location with /* to specify inputs for containers-run
+    # we need to get those files, but nothing from within a possible .datalad
+    # for example
+    location = with_pathsep(location) + "*"
 
     run_results = list()
     with patch.dict('os.environ',
