@@ -63,6 +63,15 @@ if __name__ == '__main__':
                                    dataset,
                                    "task-{bids-task}_{bids-modality}.json"))
                        )
+    # we expect location to be a directory (with DICOMS somewhere beneath)
+    if not op.isdir(location):
+        raise ValueError("%s is not a directory" % location)
+
+    from datalad.utils import with_pathsep
+    # append location with /* to specify inputs for containers-run
+    # we need to get those files, but nothing from within a possible .datalad
+    # for example
+    inputs = [with_pathsep(location) + "*", rel_spec_path]
 
     run_results = list()
     with patch.dict('os.environ',
@@ -96,9 +105,7 @@ if __name__ == '__main__':
                 container_name=op.relpath(op.join(op.dirname(op.realpath(__file__)), "heudiconv.simg"), dataset.path),
                 explicit=True,
                 expand="both",
-                inputs=[location,
-                        rel_spec_path],
-
+                inputs=inputs,
                 # Note: Outputs determination isn't good yet. We need a way to
                 # figure what exactly heudiconv produced. This is different from
                 # other toolbox-procedures due to our "injection heuristic".
