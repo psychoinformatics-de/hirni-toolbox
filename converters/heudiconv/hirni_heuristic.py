@@ -28,6 +28,7 @@ modality_label_map = {
 # map the cannonical modality labels to data_type labels
 datatype_labels_map = {
     'bold': 'func',
+    'sbref': 'func',
 
     'T1w': 'anat',
     'T2w': 'anat',
@@ -319,7 +320,7 @@ def infotodict(seqinfo):  # pragma: no cover
                             get_specval(series_spec, spec_key))
 
             filename += "_GRE"
-            
+
         if data_type == 'fmap':
             # Case 1: Phase difference image and at least one magnitude image
             # sub-<participant_label>/[ses-<session_label>/]
