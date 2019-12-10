@@ -53,6 +53,7 @@ datatype_labels_map = {
     'phase2': 'fmap',
     'magnitude1': 'fmap',
     'magnitude2': 'fmap',
+    'magnitude': 'fmap',
     'fieldmap': 'fmap',
 
     'epi': 'fmap',  # TODO?
