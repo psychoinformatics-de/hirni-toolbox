@@ -49,7 +49,7 @@ if __name__ == '__main__':
     # checks on unrelated subtrees.
     subject_dir = op.join(dataset.path, "sub-{}".format(subject))
     participants = op.join(dataset.path, "participants.tsv")
-    from datalad.interface.run import format_command
+    from datalad.core.local.run import format_command
     # TODO: This pattern is likely incomplete. Also: run prob. needs to break
     # down format_command into smaller pieces (needs mere substitutions)
     # TODO: Post run issue. Globs in outputs need to be evaluted AFTER execution
