@@ -36,34 +36,13 @@ if __name__ == '__main__':
                                                     ".git")),
                                 dataset.path)
 
-    # heudiconv may create README, CHANGES, dataset_description.json if they
-    # weren't there. So, if those aren't there before, we want to kill them
-    # afterwards
-    keep_readme = op.lexists(op.join(dataset.path, "README"))
-    keep_changes = op.lexists(op.join(dataset.path, "CHANGES"))
-    keep_description = op.lexists(op.join(dataset.path, "dataset_description.json"))
-
     # at least narrow down the output target:
     # TODO: Ultimately more of the output path logic needs to move here in order
     # to not have datalad-run unlock everything and do expensive modification
     # checks on unrelated subtrees.
     subject_dir = op.join(dataset.path, "sub-{}".format(subject))
-    participants = [op.join(dataset.path, "participants.tsv"),
-                    op.join(dataset.path, "participants.json")]
-    from datalad.core.local.run import format_command
-    # TODO: This pattern is likely incomplete. Also: run prob. needs to break
-    # down format_command into smaller pieces (needs mere substitutions)
-    # TODO: Post run issue. Globs in outputs need to be evaluted AFTER execution
-    # (again). May not yet exist.
+    outputs = [subject_dir]
 
-    outputs = [subject_dir] + participants
-    task = dataset.config.get("datalad.run.substitutions.bids-task")
-    if task and task != "None":
-        outputs.append(op.join(dataset.path,
-                               format_command(
-                                   dataset,
-                                   "task-{bids-task}_{bids-modality}.json"))
-                       )
     # we expect location to be a directory (with DICOMS somewhere beneath)
     if not op.isdir(location):
         raise ValueError("%s is not a directory" % location)
@@ -143,24 +122,3 @@ if __name__ == '__main__':
 
     # remove superfluous heudiconv output
     rmtree(op.join(dataset.path, rel_trash_path))
-
-    if not keep_changes:
-        os.unlink(op.join(dataset.path, "CHANGES"))
-    if not keep_readme:
-        os.unlink(op.join(dataset.path, "README"))
-    if not keep_description:
-        os.unlink(op.join(dataset.path, "dataset_description.json"))
-
-    # remove empty *_events.tsv files created by heudiconv
-    # TODO: ATM this relies on identifying heudiconv's template by its annex key.
-    # this is a hack. Might not work with different heudiconv versions and
-    # furthermore a change of the used backend will invalidate it.
-    import glob
-    remove_paths = [p for p in glob.glob('*/*/*_events.tsv')
-                    if dataset.repo.get_file_key(p) ==
-                    "MD5E-s116--539045d97ea63aa9bdaf017861ff7ff0.tsv"]
-    if remove_paths:
-        dataset.remove(remove_paths,
-                       check=False,
-                       message="[HIRNI] Remove empty *_event.tsv "
-                               "files")
