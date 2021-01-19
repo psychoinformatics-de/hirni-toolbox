@@ -48,6 +48,8 @@ datatype_labels_map = {
     'swi': 'swi',
     'dwi': 'dwi',
 
+    'asl': 'perf',
+
     'phasediff': 'fmap',
     'phase1': 'fmap',
     'phase2': 'fmap',
@@ -320,6 +322,24 @@ def infotodict(seqinfo):  # pragma: no cover
                             get_specval(series_spec, spec_key))
 
             filename += "_GRE"
+
+        if data_type == 'perf':
+            # BIDS-Extension:
+            # https://docs.google.com/document/d/15tnn5F10KpgHypaQJNNGiNKsni9035GtDqJzWqkkP6c
+            # perf/sub-<participant_label>[_ses-<session_label>]
+            #       [_acq-<label>][_rec-<label>][_dir-<label>][_run-<index>]_asl.nii[.gz]
+
+            for spec_key in ['bids-acquisition',
+                             'bids-reconstruction-algorithm',
+                             'bids-direction',
+                             'bids-run',
+                             ]:
+                if has_specval(series_spec, spec_key):
+                    filename += "_{}-{}".format(
+                            spec2bids_map[spec_key],
+                            get_specval(series_spec, spec_key))
+
+            filename += "_asl"
 
         if data_type == 'fmap':
             # Case 1: Phase difference image and at least one magnitude image
