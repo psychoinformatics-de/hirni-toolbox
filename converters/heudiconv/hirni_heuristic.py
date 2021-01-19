@@ -49,6 +49,7 @@ datatype_labels_map = {
     'dwi': 'dwi',
 
     'phasediff': 'fmap',
+    'phase': 'fmap',
     'phase1': 'fmap',
     'phase2': 'fmap',
     'magnitude1': 'fmap',
