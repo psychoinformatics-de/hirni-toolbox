@@ -23,7 +23,7 @@ if __name__ == '__main__':
     subject = sys.argv[4]
     location = sys.argv[5]
 
-    from mock import patch
+    from unittest.mock import patch
 
     from tempfile import mkdtemp
 
