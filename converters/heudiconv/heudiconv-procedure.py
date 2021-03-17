@@ -8,6 +8,8 @@ if __name__ == '__main__':
     # subject
     # replacements?
 
+    import glob
+    import hashlib
     import sys
     import os
     import os.path as op
@@ -154,12 +156,23 @@ if __name__ == '__main__':
     # TODO: ATM this relies on identifying heudiconv's template by its annex key.
     # this is a hack. Might not work with different heudiconv versions and
     # furthermore a change of the used backend will invalidate it.
-    import glob
     remove_paths = [p for p in glob.glob('*/*/*_events.tsv')
-                    if dataset.repo.get_file_key(p) ==
-                    "MD5E-s116--539045d97ea63aa9bdaf017861ff7ff0.tsv"]
+                    if hashlib.md5(open(p,'rb').read()).hexdigest() ==
+                    "539045d97ea63aa9bdaf017861ff7ff0"]
+
     if remove_paths:
-        dataset.remove(remove_paths,
+        # file was not committed to the dataset, e.g. because heudiconv
+        # created an file events.tsv file for another subject
+        # separate by tracked and untracked files
+        status = dataset.repo.status(remove_paths)
+        untracked_files = [str(key.relative_to(dataset.path))
+                           for key, value in status.items()
+                           if value["state"] == "untracked"]
+        tracked_files = set(remove_paths) - set(untracked_files)
+
+        dataset.remove(tracked_files,
                        check=False,
                        message="[HIRNI] Remove empty *_event.tsv "
                                "files")
+        for p in untracked_files:
+            os.remove(p)
