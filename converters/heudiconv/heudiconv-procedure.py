@@ -69,6 +69,7 @@ if __name__ == '__main__':
                                    dataset,
                                    "task-{bids-task}*.json"))
                        )
+        pprint.pprint(outputs)
     # we expect location to be a directory (with DICOMS somewhere beneath)
     if not op.isdir(location):
         raise ValueError("%s is not a directory" % location)
