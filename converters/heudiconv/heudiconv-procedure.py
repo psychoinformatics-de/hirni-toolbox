@@ -60,11 +60,14 @@ if __name__ == '__main__':
 
     outputs = [subject_dir] + participants
     task = dataset.config.get("datalad.run.substitutions.bids-task")
+    import pprint
+    pprint.pprint([(k, v) for k, v in os.environ.items() if k.startswith("DATALAD_RUN_SUBSTITUTIONS")])
+
     if task and task != "None":
         outputs.append(op.join(dataset.path,
                                format_command(
                                    dataset,
-                                   "task-{bids-task}_{bids-modality}.json"))
+                                   "task-{bids-task}*.json"))
                        )
     # we expect location to be a directory (with DICOMS somewhere beneath)
     if not op.isdir(location):
