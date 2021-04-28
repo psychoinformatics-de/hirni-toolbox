@@ -75,7 +75,7 @@ if __name__ == '__main__':
     in_file = sys.argv[1]
     out_file_tsv = sys.argv[2]
     out_file_json = sys.argv[3]
-    frequency = sys.argv[4]
+    frequency = int(sys.argv[4])  # BIDS validator will complain about a string
 
     data = np.loadtxt(in_file)
     d = proc_physio_run(data)

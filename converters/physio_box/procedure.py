@@ -65,4 +65,4 @@ if __name__ == '__main__':
                 inputs=[in_file],
                 outputs=[out_file_json, out_file_tsv],
                 explicit=True,
-                message="[HIRNI] Convert physio box file")
+                message="[HIRNI] Convert physio box file {}".format(out_file))
