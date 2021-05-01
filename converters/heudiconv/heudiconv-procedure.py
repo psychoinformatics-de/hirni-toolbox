@@ -94,8 +94,7 @@ if __name__ == '__main__':
                  # but ATM we need to (re)move it:
                  # https://github.com/nipy/heudiconv/issues/196
                  '-o', rel_trash_path,
-                 # don't create template BIDS files (ex: README, CHANGES, etc)
-                 '-b', 'notop',
+                 '-b',
                  '-a', '{dspath}',
                  '-l', '',
                  # avoid glory details provided by dcmstack,
