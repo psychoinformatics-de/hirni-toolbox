@@ -42,6 +42,7 @@ if __name__ == '__main__':
     # weren't there. So, if those aren't there before, we want to kill them
     # afterwards
     keep_readme = op.lexists(op.join(dataset.path, "README"))
+    keep_sourcedata_readme = op.lexists(op.join(dataset.path, "sourcedata", "README"))
     keep_changes = op.lexists(op.join(dataset.path, "CHANGES"))
     keep_description = op.lexists(op.join(dataset.path, "dataset_description.json"))
 
@@ -118,7 +119,6 @@ if __name__ == '__main__':
 
                 )
 
-
     #         # if there was an issue with containers-run,
     #         # yield original result, otherwise swallow:
     #         if r['status'] not in ['ok', 'notneeded']:
@@ -145,17 +145,18 @@ if __name__ == '__main__':
     # remove superfluous heudiconv output
     rmtree(op.join(dataset.path, rel_trash_path))
 
-#    if not keep_changes:
-#        os.unlink(op.join(dataset.path, "CHANGES"))
-#    if not keep_readme:
-#        os.unlink(op.join(dataset.path, "README"))
-#    if not keep_description:
-#        os.unlink(op.join(dataset.path, "dataset_description.json"))
+    if not keep_sourcedata_readme:
+        os.unlink(op.join(dataset.path, "sourcedata", "README"))
+    if not keep_changes:
+        os.unlink(op.join(dataset.path, "CHANGES"))
+    if not keep_readme:
+        os.unlink(op.join(dataset.path, "README"))
+    if not keep_description:
+        os.unlink(op.join(dataset.path, "dataset_description.json"))
 
     # remove empty *_events.tsv files created by heudiconv
-    # TODO: ATM this relies on identifying heudiconv's template by its annex key.
-    # this is a hack. Might not work with different heudiconv versions and
-    # furthermore a change of the used backend will invalidate it.
+    # TODO: ATM this relies on identifying heudiconv's template by its hash.
+    # this is a hack. Might not work with different heudiconv versions.
     remove_paths = [p for p in glob.glob('*/*/*_events.tsv')
                     if hashlib.md5(open(p,'rb').read()).hexdigest() ==
                     "539045d97ea63aa9bdaf017861ff7ff0"]
