@@ -44,8 +44,9 @@ datatype_labels_map = {
     'inplaneT1': 'anat',
     'inplaneT2': 'anat',
     'angio': 'anat',
+    'veno': 'anat',  # Note: That's what OpenNeuro folks did for venography
 
-    'swi': 'swi',
+    'swi': 'swi',  # Note: This is according to BEP 004. Not in BIDS yet.
     'dwi': 'dwi',
 
     'asl': 'perf',
