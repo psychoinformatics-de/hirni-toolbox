@@ -29,8 +29,8 @@
 	call-format = "python {script} {ds} {args}"
 	help = "fslroi"
 [datalad "procedures.copy-converter"]
-        call-format = "bash {script} {args}"
-        help = "helper procedure to simply copy files on conversion"
+        call-format = "bash {script} {args} follow"
+        help = "Copy files on conversion. Optionally do not follow links in <source>. Usage: <script> <source> <destination> <follow|dont-follow>"
 [datalad "procedures.move-converter"]
 	call-format = "bash {script} {args}"
 	help = "helper procedure to simply move files on conversion"
