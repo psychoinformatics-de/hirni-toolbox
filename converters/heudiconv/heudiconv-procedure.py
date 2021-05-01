@@ -146,12 +146,12 @@ if __name__ == '__main__':
     # remove superfluous heudiconv output
     rmtree(op.join(dataset.path, rel_trash_path))
 
-    if not keep_changes:
-        os.unlink(op.join(dataset.path, "CHANGES"))
-    if not keep_readme:
-        os.unlink(op.join(dataset.path, "README"))
-    if not keep_description:
-        os.unlink(op.join(dataset.path, "dataset_description.json"))
+#    if not keep_changes:
+#        os.unlink(op.join(dataset.path, "CHANGES"))
+#    if not keep_readme:
+#        os.unlink(op.join(dataset.path, "README"))
+#    if not keep_description:
+#        os.unlink(op.join(dataset.path, "dataset_description.json"))
 
     # remove empty *_events.tsv files created by heudiconv
     # TODO: ATM this relies on identifying heudiconv's template by its annex key.
