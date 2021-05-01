@@ -9,4 +9,5 @@
 set -e -u
 set -x
 
-datalad run --explicit --input "$1" --output "$2" mv "$1" "$2"
+# Note: We move, so input is an output as well (deletion)
+datalad run --explicit --input "$1" --output "$1"--output "$2" mv "$1" "$2"
