@@ -30,4 +30,6 @@ if __name__ == '__main__':
                     dataset.path),
                 inputs=[f],
                 outputs=[f],
+                explicit=True,
+                expand="both",
         )
