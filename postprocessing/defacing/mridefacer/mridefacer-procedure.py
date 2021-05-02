@@ -52,6 +52,12 @@ if __name__ == '__main__':
                 dataset.path),
             inputs=files,
             outputs=[dataset.path],
+            explicit=True,
+            expand="both",
             message="[HIRNI] Deface MRI data"
-
     )
+
+    # TODO: re dropping:
+    #       do we get a save result and run-okay or sth?
+    #       -> get "files" keys from parent commit and drop them?
+    #       -> or tag/branch before and delete tag/branch after drop
