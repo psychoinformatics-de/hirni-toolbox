@@ -102,7 +102,10 @@ if __name__ == '__main__':
                  # we have them in the aggregated DICOM
                  # metadata already
                  '--minmeta',
-                 '--files', location
+                 '--files', location,
+                 # Don't raise if target already exist, since this sabotages
+                 # repeated (partial) conversion as well as datalad-rerun:
+                 '--overwrite'
                  ],
                 sidecar=anonymize,
                 # TODO: This doesn't work! ... Well, it does. What was the problem?
